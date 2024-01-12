@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+<body>
+    <h3>This is API Call</h3>
+    <h6 id="server_text"></h6>
+    <div>
+    <input type="text" name="" id="name_input" placeholder="Your Name">
+    <button onclick={handleSubmitName()}>Submit</button>
+    </div>
+
+    <script>
+        /////////Get Req////////
+        fetch('http://localhost:3333/student/0')
+        .then(res => res.json())
+        .then(data => showDataToHtml(data))
+
+        const showDataToHtml=(input)=>{
+            document.getElementById('server_text').innerText=input.name;
+        }
+
+    ///////POST Req//////
+    const handleSubmitName=()=>{
+        const inputField= document.getElementById('name_input').value;
+        const userName= {name: inputField};
+        console.log(userName);
+        ////Sending POST to Server/////
+        fetch('http://localhost:3333/users',{
+        method: 'POST',
+        body: JSON.stringify(userName),
+        headers: {'Content-type': 'application/json; charset=UTF-8'}
+        })
+        ///Res from server//
+        .then(res => res.json())
+        .then(data => console.log("Post from website", showSite(data)))
+    }
+    
+    const showSite=(data)=>{
+        document.getElementById('server_text').innerText=data.id;
+        console.log(data);
+    }
+     
+    
+
+
+    </script>
+</body>
+</html>
